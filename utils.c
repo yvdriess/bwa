@@ -30,7 +30,7 @@
 #include <stdarg.h>
 #include <stdlib.h>
 #include <string.h>
-#include <zlib.h>
+/* #include <zlib.h> */
 #include <errno.h>
 #ifdef FSYNC_ON_FLUSH
 #include <sys/types.h>
@@ -46,8 +46,8 @@
 KSORT_INIT(128, pair64_t, pair64_lt)
 KSORT_INIT(64,  uint64_t, ks_lt_generic)
 
-#include "kseq.h"
-KSEQ_INIT2(, gzFile, err_gzread)
+/* #include "kseq.h" */
+/* KSEQ_INIT2(, gzFile, err_gzread) */
 
 /********************
  * System utilities *
@@ -72,20 +72,20 @@ FILE *err_xreopen_core(const char *func, const char *fn, const char *mode, FILE 
 	return fp;
 }
 
-gzFile err_xzopen_core(const char *func, const char *fn, const char *mode)
-{
-	gzFile fp;
-	if (strcmp(fn, "-") == 0) {
-		fp = gzdopen(fileno((strstr(mode, "r"))? stdin : stdout), mode);
-		/* According to zlib.h, this is the only reason gzdopen can fail */
-		if (!fp) err_fatal(func, "Out of memory");
-		return fp;
-	}
-	if ((fp = gzopen(fn, mode)) == 0) {
-		err_fatal(func, "fail to open file '%s' : %s", fn, errno ? strerror(errno) : "Out of memory");
-	}
-	return fp;
-}
+/* gzFile err_xzopen_core(const char *func, const char *fn, const char *mode) */
+/* { */
+/* 	gzFile fp; */
+/* 	if (strcmp(fn, "-") == 0) { */
+/* 		fp = gzdopen(fileno((strstr(mode, "r"))? stdin : stdout), mode); */
+/* 		/\* According to zlib.h, this is the only reason gzdopen can fail *\/ */
+/* 		if (!fp) err_fatal(func, "Out of memory"); */
+/* 		return fp; */
+/* 	} */
+/* 	if ((fp = gzopen(fn, mode)) == 0) { */
+/* 		err_fatal(func, "fail to open file '%s' : %s", fn, errno ? strerror(errno) : "Out of memory"); */
+/* 	} */
+/* 	return fp; */
+/* } */
 
 void err_fatal(const char *header, const char *fmt, ...)
 {
@@ -139,19 +139,19 @@ size_t err_fread_noeof(void *ptr, size_t size, size_t nmemb, FILE *stream)
 	return ret;
 }
 
-int err_gzread(gzFile file, void *ptr, unsigned int len)
-{
-	int ret = gzread(file, ptr, len);
+/* int err_gzread(gzFile file, void *ptr, unsigned int len) */
+/* { */
+/* 	int ret = gzread(file, ptr, len); */
 
-	if (ret < 0)
-	{
-		int errnum = 0;
-		const char *msg = gzerror(file, &errnum);
-		_err_fatal_simple("gzread", Z_ERRNO == errnum ? strerror(errno) : msg);
-	}
+/* 	if (ret < 0) */
+/* 	{ */
+/* 		int errnum = 0; */
+/* 		const char *msg = gzerror(file, &errnum); */
+/* 		_err_fatal_simple("gzread", Z_ERRNO == errnum ? strerror(errno) : msg); */
+/* 	} */
 
-	return ret;
-}
+/* 	return ret; */
+/* } */
 
 int err_fseek(FILE *stream, long offset, int whence)
 {
@@ -264,16 +264,16 @@ int err_fclose(FILE *stream)
 	return ret;
 }
 
-int err_gzclose(gzFile file)
-{
-	int ret = gzclose(file);
-	if (Z_OK != ret)
-	{
-		_err_fatal_simple("gzclose", Z_ERRNO == ret ? strerror(errno) : zError(ret));
-	}
+/* int err_gzclose(gzFile file) */
+/* { */
+/* 	int ret = gzclose(file); */
+/* 	if (Z_OK != ret) */
+/* 	{ */
+/* 		_err_fatal_simple("gzclose", Z_ERRNO == ret ? strerror(errno) : zError(ret)); */
+/* 	} */
 
-	return ret;
-}
+/* 	return ret; */
+/* } */
 
 /*********
  * Timer *
