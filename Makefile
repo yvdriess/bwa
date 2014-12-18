@@ -10,7 +10,7 @@ AOBJS=		QSufSort.o bwt_gen.o bwashm.o bwase.o bwaseqio.o bwtgap.o bwtaln.o bamli
 			bwtsw2_core.o bwtsw2_main.o bwtsw2_aux.o bwt_lite.o \
 			bwtsw2_chain.o fastmap.o bwtsw2_pair.o
 PROG=		bwa
-INCLUDES=	
+INCLUDES=	../zlib*
 LIBS=		-lm -lz -lpthread
 SUBDIRS=	.
 

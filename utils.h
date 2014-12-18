@@ -30,10 +30,10 @@
 
 #include <stdint.h>
 #include <stdio.h>
-/* #include <zlib.h> */
+#include <zlib.h>
 
 #ifdef __GNUC__
-// Tell GCC to validate printf format string and args
+Tell GCC to validate printf format string and args
 #define ATTRIBUTE(list) __attribute__ (list)
 #else
 #define ATTRIBUTE(list)
@@ -44,7 +44,7 @@
 
 #define xopen(fn, mode) err_xopen_core(__func__, fn, mode)
 #define xreopen(fn, mode, fp) err_xreopen_core(__func__, fn, mode, fp)
-/* #define xzopen(fn, mode) err_xzopen_core(__func__, fn, mode) */
+#define xzopen(fn, mode) err_xzopen_core(__func__, fn, mode)
 
 #define xassert(cond, msg) if ((cond) == 0) _err_fatal_simple_core(__func__, msg)
 
@@ -65,11 +65,11 @@ extern "C" {
 	void _err_fatal_simple_core(const char *func, const char *msg) ATTRIBUTE((noreturn));
 	FILE *err_xopen_core(const char *func, const char *fn, const char *mode);
 	FILE *err_xreopen_core(const char *func, const char *fn, const char *mode, FILE *fp);
-/* 	gzFile err_xzopen_core(const char *func, const char *fn, const char *mode); */
+	gzFile err_xzopen_core(const char *func, const char *fn, const char *mode);
     size_t err_fwrite(const void *ptr, size_t size, size_t nmemb, FILE *stream);
 	size_t err_fread_noeof(void *ptr, size_t size, size_t nmemb, FILE *stream);
 
-/* 	int err_gzread(gzFile file, void *ptr, unsigned int len); */
+	int err_gzread(gzFile file, void *ptr, unsigned int len);
 	int err_fseek(FILE *stream, long offset, int whence);
 #define err_rewind(FP) err_fseek((FP), 0, SEEK_SET)
 	long err_ftell(FILE *stream);
@@ -83,7 +83,7 @@ extern "C" {
 	int err_puts(const char *s);
 	int err_fflush(FILE *stream);
 	int err_fclose(FILE *stream);
-/* 	int err_gzclose(gzFile file); */
+	int err_gzclose(gzFile file);
 
 	double cputime();
 	double realtime();

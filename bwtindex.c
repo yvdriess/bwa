@@ -30,7 +30,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <time.h>
-/* #include <zlib.h> */
+#include <zlib.h>
 #include "bntseq.h"
 #include "bwt.h"
 #include "utils.h"

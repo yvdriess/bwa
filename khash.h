@@ -122,15 +122,19 @@ int main() {
 
 /* compipler specific configuration */
 
-#if UINT_MAX == 0xffffffffu
+#if USHRT_MAX == 0xffffffffu
+typedef unsigned short khint32_t;
+#elif UINT_MAX == 0xffffffffu
 typedef unsigned int khint32_t;
 #elif ULONG_MAX == 0xffffffffu
 typedef unsigned long khint32_t;
 #endif
 
-#if ULONG_MAX == ULLONG_MAX
+#if UINT_MAX == 0xffffffffffffffffu
+typedef unsigned int khint64_t;
+#elif ULONG_MAX == 0xffffffffffffffffu
 typedef unsigned long khint64_t;
-#else
+#elif ULLONG_MAX == 0xffffffffffffffffu
 typedef unsigned long long khint64_t;
 #endif
 

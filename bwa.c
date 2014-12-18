@@ -4,10 +4,13 @@
 #include <assert.h>
 #include "bntseq.h"
 #include "bwa.h"
-#include "ksw.h"
 #include "utils.h"
 #include "kstring.h"
 #include "kvec.h"
+
+#ifndef XMT
+#include "ksw.h"
+#endif
 
 #ifdef USE_MALLOC_WRAPPERS
 #  include "malloc_wrap.h"
@@ -107,6 +110,7 @@ void bwa_fill_scmat(int a, int b, int8_t mat[25])
 	for (j = 0; j < 5; ++j) mat[k++] = -1;
 }
 
+#ifndef XMT
 // Generate CIGAR when the alignment end points are known
 uint32_t *bwa_gen_cigar2(const int8_t mat[25], int o_del, int e_del, int o_ins, int e_ins, int w_, int64_t l_pac, const uint8_t *pac, int l_query, uint8_t *query, int64_t rb, int64_t re, int *score, int *n_cigar, int *NM)
 {
@@ -200,6 +204,8 @@ uint32_t *bwa_gen_cigar(const int8_t mat[25], int q, int r, int w_, int64_t l_pa
 {
 	return bwa_gen_cigar2(mat, q, r, q, r, w_, l_pac, pac, l_query, query, rb, re, score, n_cigar, NM);
 }
+
+#endif
 
 /*********************
  * Full index reader *
