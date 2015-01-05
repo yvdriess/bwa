@@ -33,7 +33,7 @@ static int usage()
 	fprintf(stderr, "Version: %s\n", PACKAGE_VERSION);
 	fprintf(stderr, "Contact: Heng Li <lh3@sanger.ac.uk>\n\n");
 	fprintf(stderr, "Usage:   bwa <command> [options]\n\n");
-/* 	fprintf(stderr, "Command: index         index sequences in the FASTA format\n"); */
+	fprintf(stderr, "Command: index         index sequences in the FASTA format\n");
 /* 	fprintf(stderr, "         mem           BWA-MEM algorithm\n"); */
 /* 	fprintf(stderr, "         fastmap       identify super-maximal exact matches\n"); */
 /* 	fprintf(stderr, "         pemerge       merge overlapping paired ends (EXPERIMENTAL)\n"); */
@@ -70,6 +70,7 @@ int main(int argc, char *argv[])
 	if (argc < 2) return usage();
 
 	if (strcmp(argv[1], "aln") == 0) ret = bwa_aln(argc-1, argv+1);
+ 	else if (strcmp(argv[1], "index") == 0) ret = bwa_index(argc-1, argv+1);
 	else {
 		fprintf(stderr, "[main] unrecognized command '%s'\n", argv[1]);
 		return 1;

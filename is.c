@@ -26,6 +26,8 @@
 
 #include <stdlib.h>
 
+#define NULL 0
+
 #ifdef USE_MALLOC_WRAPPERS
 #  include "malloc_wrap.h"
 #endif

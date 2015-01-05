@@ -458,7 +458,7 @@ bwt_t *bwt_restore_bwt(const char *fn)
 	err_fread_noeof(&bwt->primary, sizeof(bwtint_t), 1, fp);
 	err_fread_noeof(bwt->L2+1, sizeof(bwtint_t), 4, fp);
 	/* 	fread_fix(fp, bwt->bwt_size<<2, bwt->bwt); */ //replaced with line below
-	err_fread_noeof(bwt->bwt, sizeof(uint32_t), bwt->bwt_size, bwt->bwt);
+	err_fread_noeof(bwt->bwt, sizeof(uint32_t), bwt->bwt_size, fp);
 	bwt->seq_len = bwt->L2[4];
 	err_fclose(fp);
 	bwt_gen_cnt_table(bwt);
