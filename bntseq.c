@@ -77,7 +77,7 @@ void bns_dump(const bntseq_t *bns, const char *prefix)
 			err_fprintf(fp, "%d %s", p->gi, p->name);
 			if (p->anno[0]) err_fprintf(fp, " %s\n", p->anno);
 			else err_fprintf(fp, "\n");
-			err_fprintf(fp, "%lld %d %d\n", (long long)p->offset, p->len, p->n_ambs);
+			err_fprintf(fp, "%lld %d %d\n", p->offset, p->len, p->n_ambs);
 		}
 		err_fflush(fp);
 		err_fclose(fp);
@@ -107,7 +107,7 @@ bntseq_t *bns_restore_core(const char *ann_filename, const char* amb_filename, c
 	bns = (bntseq_t*)calloc(1, sizeof(bntseq_t));
 	{ // read .ann
 		fp = xopen(fname = ann_filename, "r");
-		scanres = fscanf(fp, "%lld%d%u", &xx, (int32_t*)&bns->n_seqs, (uint32_t*)&bns->seed);
+		scanres = fscanf(fp, "%lld%d%u", &xx, &bns->n_seqs, &bns->seed);
 		if (scanres != 3) goto badread;
 		bns->l_pac = xx;
 		bns->anns = (bntann1_t*)calloc(bns->n_seqs, sizeof(bntann1_t));
