@@ -71,7 +71,7 @@ void bns_dump(const bntseq_t *bns, const char *prefix)
 	{ // dump .ann
 		strcpy(str, prefix); strcat(str, ".ann");
 		fp = xopen(str, "w");
-		err_fprintf(fp, "%lld %d %u\n", (long long)bns->l_pac, bns->n_seqs, bns->seed);
+		err_fprintf(fp, "%lld %d %u\n", bns->l_pac, bns->n_seqs, bns->seed);
 		for (i = 0; i != bns->n_seqs; ++i) {
 			bntann1_t *p = bns->anns + i;
 			err_fprintf(fp, "%d %s", p->gi, p->name);
@@ -85,10 +85,10 @@ void bns_dump(const bntseq_t *bns, const char *prefix)
 	{ // dump .amb
 		strcpy(str, prefix); strcat(str, ".amb");
 		fp = xopen(str, "w");
-		err_fprintf(fp, "%lld %d %u\n", (long long)bns->l_pac, bns->n_seqs, bns->n_holes);
+		err_fprintf(fp, "%lld %d %u\n", bns->l_pac, bns->n_seqs, bns->n_holes);
 		for (i = 0; i != bns->n_holes; ++i) {
 			bntamb1_t *p = bns->ambs + i;
-			err_fprintf(fp, "%lld %d %c\n", (long long)p->offset, p->len, p->amb);
+			err_fprintf(fp, "%lld %d %c\n", p->offset, p->len, p->amb);
 		}
 		err_fflush(fp);
 		err_fclose(fp);
@@ -107,7 +107,7 @@ bntseq_t *bns_restore_core(const char *ann_filename, const char* amb_filename, c
 	bns = (bntseq_t*)calloc(1, sizeof(bntseq_t));
 	{ // read .ann
 		fp = xopen(fname = ann_filename, "r");
-		scanres = fscanf(fp, "%lld%d%u", &xx, &bns->n_seqs, &bns->seed);
+		scanres = fscanf(fp, "%lld%d%u", &xx, (int32_t*)&bns->n_seqs, (uint32_t*)&bns->seed);
 		if (scanres != 3) goto badread;
 		bns->l_pac = xx;
 		bns->anns = (bntann1_t*)calloc(bns->n_seqs, sizeof(bntann1_t));
@@ -164,6 +164,7 @@ bntseq_t *bns_restore_core(const char *ann_filename, const char* amb_filename, c
 		err_fatal(__func__, "Error reading %s : %s\n", fname, ferror(fp) ? strerror(errno) : "Unexpected end of file");
 	}
 	err_fatal(__func__, "Parse error reading %s\n", fname);
+	return 0;
 }
 
 bntseq_t *bns_restore(const char *prefix)
